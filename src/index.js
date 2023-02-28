@@ -1,3 +1,6 @@
+import errorManager from './error-manager.js';
 import './normalize.css';
 import './style.css';
-import './development.js';
+import taskManager from './task-manager.js';
+
+const THIS_SCRIPT = 'index.js';
