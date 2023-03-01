@@ -119,22 +119,3 @@ function getArrayIndex(taskIndexOrObject, array){
     }
 }
 
-
-
-//populate with data:
-for (let i = 0; i < 5; i++) {
-    let cat = taskManager.newCategory(`cat_${i}`);
-    for (let j = 0; j < 5; j++) {
-        cat.newTask(`task_${j}`, `This is task number ${j} in category ${cat.name}`);
-    }
-}
-
-let tcategories = taskManager.getCategories();
-console.log(tcategories);
-console.log(tcategories[0]);
-console.log('Categories populated');
-tcategories[1].removeTask(1);
-console.log(taskManager.getCategories());
-
-
-
