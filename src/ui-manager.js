@@ -9,15 +9,15 @@ const uiManager = (() => {
             blackout: document.getElementById('blackout-container')
         },
         button: {
-            addTask: document.getElementById('add-task-btn'),
-            addCategory: document.getElementById('add-category-btn'),
+            openNewTaskMenu: document.getElementById('open-new-task-menu-btn'),
+            addCategory: document.getElementById('create-new-category-btn'),
             createTask: document.getElementById('create-task-btn'),
         },
         categories: [],
         items: [],
         main: document.getElementById('main'),
         menu:{
-            addTask: document.getElementById('add-task-popup'),
+            newTask: document.getElementById('add-task-popup'),
         }
     }
     //variables
@@ -101,7 +101,7 @@ const uiManager = (() => {
         function _addNewCategory() {
             console.log('Add category button hit.');
         }
-        ref.button.addTask.addEventListener('click', openAddTaskMenu);
+        ref.button.openNewTaskMenu.addEventListener('click', openAddTaskMenu);
         function openAddTaskMenu() {
             _showBlackout(true);
             _showAddTaskMenu(true);
@@ -112,7 +112,7 @@ const uiManager = (() => {
         }
         const _showAddTaskMenu = (displayAddTaskMenu) =>{
             if(_showAddTaskMenu) ref.menu.addTask.classList.remove('hidden');
-            else ref.menu.addTask.classList.add('hidden');
+            else ref.menu.newTask.classList.add('hidden');
         }
     }
     return { ref, addTasks, addCategories, getSelectedCategoryIndex, init };

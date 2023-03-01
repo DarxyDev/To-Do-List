@@ -88,7 +88,7 @@ category>h4{
     align-items: center;
 }
 
-#add-category-btn {
+#create-new-category-btn {
     width: 2rem;
     height: 2rem;
     align-self: center;
@@ -135,7 +135,7 @@ item {
     word-wrap:break-word;
     flex-grow:1;
 }
-#add-task-btn{
+#open-new-task-menu-btn{
     position:absolute;
     width:2rem;
     height:2rem;
