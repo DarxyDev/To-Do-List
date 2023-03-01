@@ -6,18 +6,27 @@ const uiManager = (() => {
         container: {
             item: document.getElementById('item-container'),
             category: document.getElementById('category-container'),
-            blackout: document.getElementById('blackout-container')
+            blackout: document.getElementById('blackout-container'),
         },
         button: {
             openNewTaskMenu: document.getElementById('open-new-task-menu-btn'),
             addCategory: document.getElementById('create-new-category-btn'),
-            createTask: document.getElementById('create-task-btn'),
         },
         categories: [],
         items: [],
         main: document.getElementById('main'),
         menu:{
-            newTask: document.getElementById('add-task-popup'),
+            newTask: {
+                container: document.getElementById('add-task-popup'),
+                button:{
+                    submit: document.getElementById('create-task-btn'),
+                },
+                form: {
+                    form: document.getElementById('new-task-form'),
+                    name: document.getElementById('new-task-form-name'),
+                    description: document.getElementById('new-task-form-description'),
+                },
+            },
         }
     }
     //variables
@@ -106,13 +115,33 @@ const uiManager = (() => {
             _showBlackout(true);
             _showAddTaskMenu(true);
         }
+        function closeAddTaskMenu(){
+            _showBlackout(false);
+            _showAddTaskMenu(false);
+        }
         const _showBlackout = (displayBlackout) => {
             if (displayBlackout) ref.container.blackout.classList.remove('hidden');
             else ref.container.blackout.classList.add('hidden');
         }
         const _showAddTaskMenu = (displayAddTaskMenu) =>{
-            if(_showAddTaskMenu) ref.menu.addTask.classList.remove('hidden');
-            else ref.menu.newTask.classList.add('hidden');
+            if(_showAddTaskMenu) ref.menu.newTask.container.classList.remove('hidden');
+            else ref.menu.newTask.container.classList.add('hidden');
+        }
+        ref.menu.newTask.button.submit.addEventListener('click', _createTask);
+        function _createTask(){
+            let formElements = ref.menu.newTask.form;
+            let name = formElements.name.value;
+            let description = formElements.description.value;
+
+            let category = mainManager.getCategoryArray()[selectedCategoryIndex];
+            let task = category.newTask(name, description);
+            addTasks(task);
+            
+            closeAddTaskMenu();
+            _clearNewTaskForm();
+        }
+        function _clearNewTaskForm(){
+            ref.menu.newTask.form.form.reset();
         }
     }
     return { ref, addTasks, addCategories, getSelectedCategoryIndex, init };

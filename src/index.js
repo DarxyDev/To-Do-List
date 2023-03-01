@@ -40,6 +40,7 @@ export default mainManager;
     //clear any pre-populated items
     uiManager.ref.container.category.textContent = '';
     uiManager.ref.container.item.textContent = '';
+    uiManager.ref.menu.newTask.form.form.reset();
 
     //populate with initial categories/tasks
     uiManager.addCategories(categories);
