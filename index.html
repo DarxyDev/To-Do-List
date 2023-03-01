@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,11 +8,45 @@
     <title>To-Do List</title>
     <script src="main.js" defer></script>
 </head>
+
 <body>
     <div id="content">
         <header id="header"></header>
-        <main id="main"></main>
+        <main id="main">
+            <div id="to-do-window">
+                <div id="category-section">
+                    <div id='category-container'>
+                        <category class="selected-category">
+                            <h4>cat1</h4>
+                        </category>
+                    </div>
+                    <button id="add-category-btn" class="round-btn">+</button>
+                </div>
+                <div id="to-do-section">
+                    <div id="item-window">
+                        <div id="item-container">
+                            <item>
+                                <h3>This is a to-do title</h3>
+                                <p>This is a description of what the todo consists of. I am going to put a couple notes
+                                    here.</p>
+                            </item>
+                        </div>
+                        <button id="add-task-btn" class="round-btn">+</button>
+                    </div>
+                </div>
+            </div>
+            <div  id='blackout-container'class=" abs-center hidden">
+                <div id="add-task-popup" class="abs-center hidden">
+                    <form action="" id="new-task-form">
+                        <input type="text" placeholder="Task Name">
+                        <input type="text" placeholder="Description">
+                        <button id="create-task-btn" type="button">Create</button>
+                    </form>
+                </div>
+            </div>
+        </main>
         <footer id="footer"></footer>
     </div>
 </body>
+
 </html>
