@@ -47,5 +47,3 @@ export default mainManager;
     uiManager.init();
 })()
 
-uiManager.ref.button.openNewTaskMenu.click();
-
