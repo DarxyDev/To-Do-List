@@ -37,7 +37,7 @@ class Category {
 const taskManager = (() => {
     const _categories = [];
 
-    const newCategory = (name) => {
+    const newCategory = (name = "") => {
         const category = new Category(name);
         category.index = _categories.length;
         _categories.push(category);

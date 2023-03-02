@@ -26,7 +26,7 @@ const uiManager = (() => {
             },
         },
         //dynamic references
-        categories: [], 
+        categories: [],
         items: [],
     }
     //variables
@@ -39,7 +39,13 @@ const uiManager = (() => {
         //static element event listeners
         ref.button.addCategory.addEventListener('click', _addNewCategory);
         function _addNewCategory() {
-            console.log('Add category button hit.');
+            let index = ref.categories.length;
+            let category = interlinkManager.newCategory('');
+
+            addCategoriesDOM(category);
+            _selectCategory(index);
+
+            console.log('add category.editButton.click() here on line 45');
         }
         ref.button.openNewTaskMenu.addEventListener('click', openAddTaskMenu);
         function openAddTaskMenu() {
@@ -53,7 +59,7 @@ const uiManager = (() => {
 
             let category = interlinkManager.getCategoryArray()[selectedCategoryIndex];
             let task = category.newTask(name, description);
-            addTasks(task);
+            addTasksDOM(task);
 
             _showBlackout(false);
             _showAddTaskMenu(false);
@@ -62,22 +68,39 @@ const uiManager = (() => {
     }
 
     //public functions
-    const addCategories = (categories) => {
+    const addCategoriesDOM = (categories) => {
+        //accepts html elements, single or array of category objects
+        if (categories.nodeName !== undefined) {
+            if (categories.nodeName !== 'CATEGORY')
+                console.log(`warning --> addCategoriesDOM : Category<${categories} is not type CATEGORY>`);
+            ref.container.category.appendChild(categories);
+            ref.categories.push(categories);
+            return;
+        }
         if (Array.isArray(categories)) {
-            categories.forEach(category => { addCategories(category) });
+            categories.forEach(category => { addCategoriesDOM(category) });
             return;
         }
         let categoryElement = _createCategory(categories);
         ref.container.category.appendChild(categoryElement);
+        return categoryElement;
     }
-    const addTasks = (tasks) => {
-        if (Array.isArray(tasks)) {
-            tasks.forEach(task => { addTasks(task) });
+    const addTasksDOM = (tasks) => {
+        //accepts html elements, single or array of task objects
+        if (tasks.nodeName !== undefined) {
+            if (tasks.nodeName !== 'ITEM')
+                console.log(`warning --> addTasksDOM : Task<${tasks}> is not type ITEM.`);
+            ref.items.push(tasks);
+            ref.container.item.appendChild(tasks);
             return;
         }
-        let item = _createItem(tasks);
-        ref.items.push(item);
-        ref.container.item.appendChild(item);
+        if (Array.isArray(tasks)) {
+            tasks.forEach(task => { addTasksDOM(task) });
+            return;
+        }
+        let itemElement = _createItem(tasks);
+        ref.container.item.appendChild(itemElement);
+        return itemElement;
     }
     const getSelectedCategoryIndex = () => { return selectedCategoryIndex; }
 
@@ -96,11 +119,10 @@ const uiManager = (() => {
         });
 
         ref.categories.push(categoryElement);
-
         return categoryElement;
     }
     const _createItem = (task) => {
-        let item = document.createElement('item');
+        let itemElement = document.createElement('item');
 
         let title = document.createElement('h3');
         title.textContent = task.name;
@@ -108,10 +130,11 @@ const uiManager = (() => {
         let description = document.createElement('p');
         description.textContent = task.description;
 
-        item.appendChild(title);
-        item.appendChild(description);
+        itemElement.appendChild(title);
+        itemElement.appendChild(description);
 
-        return item;
+        ref.items.push(itemElement);
+        return itemElement;
 
     }
     const _selectCategory = (categoryIndex) => {
@@ -120,7 +143,7 @@ const uiManager = (() => {
         selectedCategoryIndex = categoryIndex;
 
         _clearItems();
-        addTasks(interlinkManager.getTaskArray(categoryIndex));
+        addTasksDOM(interlinkManager.getTaskArray(categoryIndex));
     }
     const _clearItems = () => {
         ref.items = [];
@@ -139,6 +162,6 @@ const uiManager = (() => {
     }
 
 
-    return { ref, addTasks, addCategories, getSelectedCategoryIndex, init };
+    return { ref, addTasksDOM, addCategoriesDOM, getSelectedCategoryIndex, init };
 })()
 export default uiManager;

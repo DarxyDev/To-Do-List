@@ -7,9 +7,9 @@ import uiManager from './ui-manager';
 (() => {
 
     //populate with data:
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
         let cat = taskManager.newCategory(`cat_${i}`);
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < 2; j++) {
             cat.newTask(`task_${j}`, `This is task number ${j} in category ${cat.name}`);
         }
     }
@@ -26,7 +26,7 @@ import uiManager from './ui-manager';
     uiManager.ref.menu.newTask.form.form.reset();
 
     //populate with initial categories/tasks
-    uiManager.addCategories(categories);
+    uiManager.addCategoriesDOM(categories);
     uiManager.init();
 })()
 
