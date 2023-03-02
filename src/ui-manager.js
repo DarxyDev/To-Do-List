@@ -1,4 +1,4 @@
-import mainManager from './index.js'
+import interlinkManager from './interlink-manager.js';
 
 const uiManager = (() => {
     //references
@@ -36,7 +36,7 @@ const uiManager = (() => {
     const init = () => {
         _selectCategory(selectedCategoryIndex);
 
-        //set event listeners
+        //static element event listeners
         ref.button.addCategory.addEventListener('click', _addNewCategory);
         function _addNewCategory() {
             console.log('Add category button hit.');
@@ -51,7 +51,7 @@ const uiManager = (() => {
             let name = formElements.name.value;
             let description = formElements.description.value;
 
-            let category = mainManager.getCategoryArray()[selectedCategoryIndex];
+            let category = interlinkManager.getCategoryArray()[selectedCategoryIndex];
             let task = category.newTask(name, description);
             addTasks(task);
 
@@ -86,9 +86,9 @@ const uiManager = (() => {
     const _createCategory = (category) => {
         let categoryElement = document.createElement('category');
 
-        let name = document.createElement('h4');
-        name.textContent = category.name;
-        categoryElement.appendChild(name);
+        let nameElement = document.createElement('h4');
+        nameElement.textContent = category.name;
+        categoryElement.appendChild(nameElement);
 
         categoryElement.setAttribute('index', ref.categories.length);
         categoryElement.addEventListener('click', (e) => {
@@ -120,7 +120,7 @@ const uiManager = (() => {
         selectedCategoryIndex = categoryIndex;
 
         _clearItems();
-        addTasks(mainManager.getTaskArray(categoryIndex));
+        addTasks(interlinkManager.getTaskArray(categoryIndex));
     }
     const _clearItems = () => {
         ref.items = [];

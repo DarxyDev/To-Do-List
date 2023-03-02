@@ -1,6 +1,7 @@
 import errorManager from "./error-manager";
 const THIS_SCRIPT = 'task-manager.js';
 
+
 class Task {
     constructor(name, description, index) {
         this.name = name;
@@ -24,15 +25,15 @@ class Category {
         return this.tasks;
     }
     removeTask = (taskIndexOrObject) => {
-        let taskIndex = getArrayIndex(taskIndexOrObject, this.tasks);
+        let taskIndex = _getArrayIndex(taskIndexOrObject, this.tasks);
         if (taskIndex < 0) return;
         this.tasks.splice(taskIndex, 1);
-        updateIndexes(this.tasks);
+        _updateIndexes(this.tasks);
         return;
     }
 }
 
-//all public functions to go in here
+//public functions
 const taskManager = (() => {
     const _categories = [];
 
@@ -76,18 +77,19 @@ const taskManager = (() => {
         return category.getTasks();
     }
     const removeCategory = (categoryOrIndex) => {
-        let categoryIndex = getArrayIndex(_categories[categoryOrIndex], getCategories());
+        let categoryIndex = _getArrayIndex(_categories[categoryOrIndex], getCategories());
         if(categoryIndex < 0) return;
         console.log('1');
         _categories.splice(categoryIndex,1);
         console.log('2');
-        updateIndexes(_categories);
+        _updateIndexes(_categories);
     }
     return { newCategory, newTask, getCategories, getTasks, removeCategory };
 })();
 export default taskManager;
 
-function updateIndexes(array) {
+//private functions
+function _updateIndexes(array) {
     let errorMessage = false;
     if (typeof (array) !== 'object') {
         errorMessage = `array <${array}> is not an object.`;
@@ -104,7 +106,7 @@ function updateIndexes(array) {
     }
     return array;
 }
-function getArrayIndex(taskIndexOrObject, array){
+function _getArrayIndex(taskIndexOrObject, array){
     if (typeof (taskIndexOrObject) === 'object') {
         taskIndexOrObject = taskIndexOrObject.index;
     }

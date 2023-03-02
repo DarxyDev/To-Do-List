@@ -1,24 +1,7 @@
-import errorManager from './error-manager.js';
 import './normalize.css';
 import './style.css';
 import taskManager from './task-manager.js';
 import uiManager from './ui-manager';
-
-const THIS_SCRIPT = 'index.js';
-
-const mainManager = (() => {
-    const getTaskArray = (categoryIndex) => {
-        return taskManager.getTasks(categoryIndex);
-    }
-    const getCategoryArray = () => {
-        return taskManager.getCategories();
-    }
-    return { getTaskArray, getCategoryArray };
-})()
-
-export default mainManager;
-
-
 
 //initialization
 (() => {
