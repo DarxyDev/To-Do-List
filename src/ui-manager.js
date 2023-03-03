@@ -83,6 +83,7 @@ const uiManager = (() => {
     //private functions
     const _createCategory = (category) => {
         let categoryElement = document.createElement('category');
+        categoryElement.classList.add('category-name');
 
         let nameElement = document.createElement('h4');
         nameElement.textContent = category.name;
@@ -112,7 +113,7 @@ const uiManager = (() => {
             const inputElement = document.createElement('input');
             inputElement.value = originalTitle;
             inputElement.setAttribute('type', 'text');
-            inputElement.classList.add('temp-category-name-input');
+            inputElement.classList.add('category-name-input');
             inputElement.addEventListener('keypress', (e) => {
                 if (e.key !== 'Enter') return;
                 const newName = inputElement.value;
