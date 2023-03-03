@@ -133,18 +133,33 @@ const uiManager = (() => {
     const _createItem = (task) => {
         let itemElement = document.createElement('item');
 
-        let title = document.createElement('h3');
-        title.textContent = task.name;
+        let titleElement = document.createElement('h3');
+        titleElement.textContent = task.name;
 
-        let description = document.createElement('p');
-        description.textContent = task.description;
+        let descriptionElement = document.createElement('p');
+        descriptionElement.textContent = task.description;
 
-        itemElement.appendChild(title);
-        itemElement.appendChild(description);
+        let deleteBtn = _makeDeleteTaskBtn();
+
+        itemElement.appendChild(titleElement);
+        itemElement.appendChild(descriptionElement);
+        itemElement.appendChild(deleteBtn);
 
         ref.items.push(itemElement);
         return itemElement;
+        
+        function _makeDeleteTaskBtn(){
+            let btn = document.createElement('button');
+            btn.innerText = 'X';
+            btn.classList.add('delete-task-btn', 'round-btn');
+            btn.addEventListener('click', (e)=>{
+                let category = interlinkManager.getCategoryArray()[selectedCategoryIndex];
+                category.removeTask(task.index);
+                itemElement.remove();
+            })
 
+            return btn;
+        }
     }
     const _selectCategory = (categoryIndex) => {
         ref.categories[selectedCategoryIndex].classList.remove('selected-category');
@@ -178,7 +193,10 @@ const uiManager = (() => {
         else ref.container.blackout.classList.add('hidden');
     }
     const _showAddTaskMenu = (bool) => {
-        if (bool) ref.menu.newTask.container.classList.remove('hidden');
+        if (bool){ 
+            ref.menu.newTask.container.classList.remove('hidden');
+            ref.menu.newTask.form.name.focus();
+    }
         else ref.menu.newTask.container.classList.add('hidden');
     }
     const _submitNewTask = () => { //submit.eventListener

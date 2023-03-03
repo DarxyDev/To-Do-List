@@ -9,6 +9,17 @@ body{
 }
 button{
     cursor:pointer;
+    background-color:rgba(255,255,255,.5);
+    border: none;
+    box-shadow:-1px 1px 1px 1px rgba(0, 0, 0, .3);
+}
+button:hover{
+    background-color:rgba(0,0,0,.3);
+    box-shadow:-1px 1px 1px 1px rgba(0, 0, 0, .6);
+}
+button:active{
+    background-color:rgba(0, 0, 0, .6);
+    box-shadow:none;
 }
 
 #content {
@@ -129,6 +140,7 @@ category>h4{
 }
 
 item {
+    position:relative;
     background-color: yellow;
     border-radius:var(--default-border-radius);
     padding:30px;
@@ -194,4 +206,9 @@ item {
     text-align:center;
     font-size:1rem;
     font-weight:800;
+}
+.delete-task-btn{
+    position:absolute;
+    top:1rem;
+    left:1rem;
 }
