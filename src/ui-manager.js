@@ -31,6 +31,11 @@ const uiManager = (() => {
     }
     //variables
     let selectedCategoryIndex = 0;
+    const colors = {
+        getPriorityLevelColor: (priority)=>{
+            return `rgba(255,255,255,${(priority * .1 + .2)})`;
+        }
+    };
 
     //Initialize - Call in index.js
     const init = () => {
@@ -74,6 +79,7 @@ const uiManager = (() => {
             return;
         }
         let itemElement = _createItem(tasks);
+        itemElement.style.backgroundColor = colors.getPriorityLevelColor(tasks.priority);
         ref.container.item.appendChild(itemElement);
         return itemElement;
     }

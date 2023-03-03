@@ -94,11 +94,11 @@ function _updateIndexes(array) {
     if (typeof (array) !== 'object') {
         errorMessage = `array <${array}> is not an object.`;
     }
-    if (array.length <= 0) {
+    if (array.length < 0) {
         errorMessage = `array<${array}>.length<${array.length}> is invalid.`;
     }
     if (errorMessage) {
-        errorManager.new(THIS_SCRIPT, errorMessage, "exiting");
+        errorManager.new(THIS_SCRIPT, errorMessage, " _updateIndexes() exiting");
         return 0;
     }
     for (let i = 0; i < array.length; i++) {
