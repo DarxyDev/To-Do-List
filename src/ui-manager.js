@@ -96,7 +96,7 @@ const uiManager = (() => {
         nameElement.textContent = category.name;
         categoryElement.setAttribute('index', ref.categories.length);
 
-        _addEditBtnToCategory(categoryElement);
+        _addEditBtnToElement(categoryElement);
         categoryElement.appendChild(nameElement);
 
         categoryElement.addEventListener('click', (e) => {
@@ -106,10 +106,10 @@ const uiManager = (() => {
         ref.categories.push(categoryElement);
         return categoryElement;
     }
-    const _addEditBtnToCategory = (categoryElement) => {
+    const _addEditBtnToElement = (element) => {
         let btnElement = document.createElement('button');
         btnElement.appendChild(_createSVGElement(svg_editIcon));
-        categoryElement.appendChild(btnElement);
+        element.appendChild(btnElement);
         btnElement.classList.add('edit-category-btn', 'round-btn');
 
         btnElement.addEventListener('click', (e) => {
@@ -124,6 +124,13 @@ const uiManager = (() => {
             inputElement.classList.add('category-name-input');
             inputElement.addEventListener('keypress', (e) => {
                 if (e.key !== 'Enter') return;
+                _setInput();
+            });
+            inputElement.addEventListener('focusout', _setInput);
+            titleElement.appendChild(inputElement);
+            inputElement.select();
+
+            function _setInput(){
                 const newName = inputElement.value;
                 titleElement.textContent = newName;
                 inputElement.remove();
@@ -131,9 +138,7 @@ const uiManager = (() => {
                 let index = parent.getAttribute('index');
                 let thisCategory = interlinkManager.getCategoryArray()[index];
                 thisCategory.name = newName;
-            });
-            titleElement.appendChild(inputElement);
-            inputElement.select();
+            }
         })
 
         return btnElement;
