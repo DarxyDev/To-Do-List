@@ -165,12 +165,9 @@ const uiManager = (() => {
                     if (e.propertyName === 'margin-right')
                         itemElement.remove();
                 });
-                itemElement.classList.add('transition-remove-item');
                 let itemWidth = itemElement.offsetWidth;
                 itemElement.style.marginRight = `calc(${itemWidth * -1}px - var(--item-container-gap))`;
-                // let itemHeight = itemElement.offsetHeight;
-                // itemElement.style.marginTop = `calc(${itemHeight * -1}px - var(--item-container-gap))`;
-                // itemElement.remove();
+                itemElement.style.opacity = 0;
             })
 
             return btn;

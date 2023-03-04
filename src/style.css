@@ -166,7 +166,7 @@ category>h4 {
     padding: 1rem 0 1rem 3rem;
     box-sizing: border-box;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap:wrap;
     gap:var(--item-container-gap);
 }
 
@@ -182,10 +182,7 @@ item {
     flex-grow: 1;
     box-shadow: var(--default-box-shadow) var(--tint-dark-low);
     cursor: pointer;
-}
-.transition-remove-item {
     transition: margin-right var(--default-transition-time), opacity calc(var(--default-transition-time) / 4);
-    opacity: 0;
 }
 
 item:hover {
