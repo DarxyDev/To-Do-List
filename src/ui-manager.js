@@ -164,10 +164,12 @@ const uiManager = (() => {
                 itemElement.addEventListener('transitionend', (e) => {
                     if (e.propertyName === 'margin-right')
                         itemElement.remove();
+                    if(e.propertyName === 'margin-right') console.log('delete?');
                 });
                 let itemWidth = itemElement.offsetWidth;
                 itemElement.style.marginRight = `calc(${itemWidth * -1}px - var(--item-container-gap))`;
                 itemElement.style.opacity = 0;
+                
             })
 
             return btn;
