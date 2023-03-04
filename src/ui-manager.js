@@ -32,7 +32,7 @@ const uiManager = (() => {
     //variables
     let selectedCategoryIndex = 0;
     const colors = {
-        getPriorityLevelColor: (priority)=>{
+        getPriorityLevelColor: (priority) => {
             return `rgba(255,255,255,${(priority * .1 + .2)})`;
         }
     };
@@ -58,7 +58,7 @@ const uiManager = (() => {
             return categories;
         }
         if (Array.isArray(categories)) {
-            categories.forEach(category => {addCategoriesDOM(category) });
+            categories.forEach(category => { addCategoriesDOM(category) });
             return;
         }
         let categoryElement = _createCategory(categories);
@@ -153,15 +153,24 @@ const uiManager = (() => {
 
         ref.items.push(itemElement);
         return itemElement;
-        
-        function _makeDeleteTaskBtn(){
+
+        function _makeDeleteTaskBtn() {
             let btn = document.createElement('button');
             btn.innerText = 'X';
             btn.classList.add('delete-task-btn', 'round-btn');
-            btn.addEventListener('click', (e)=>{
+            btn.addEventListener('click', (e) => {
                 let category = interlinkManager.getCategoryArray()[selectedCategoryIndex];
                 category.removeTask(task.index);
-                itemElement.remove();
+                itemElement.addEventListener('transitionend', (e) => {
+                    if (e.propertyName === 'margin-right')
+                        itemElement.remove();
+                });
+                itemElement.classList.add('transition-remove-item');
+                let itemWidth = itemElement.offsetWidth;
+                itemElement.style.marginRight = `calc(${itemWidth * -1}px - var(--item-container-gap))`;
+                // let itemHeight = itemElement.offsetHeight;
+                // itemElement.style.marginTop = `calc(${itemHeight * -1}px - var(--item-container-gap))`;
+                // itemElement.remove();
             })
 
             return btn;
@@ -199,10 +208,10 @@ const uiManager = (() => {
         else ref.container.blackout.classList.add('hidden');
     }
     const _showAddTaskMenu = (bool) => {
-        if (bool){ 
+        if (bool) {
             ref.menu.newTask.container.classList.remove('hidden');
             ref.menu.newTask.form.name.focus();
-    }
+        }
         else ref.menu.newTask.container.classList.add('hidden');
     }
     const _submitNewTask = () => { //submit.eventListener
