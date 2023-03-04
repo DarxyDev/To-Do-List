@@ -1,4 +1,5 @@
 import interlinkManager from './interlink-manager.js';
+import svg_editIcon from './img/edit-icon.svg'
 
 const uiManager = (() => {
     //references
@@ -107,6 +108,7 @@ const uiManager = (() => {
     }
     const _addEditBtnToCategory = (categoryElement) => {
         let btnElement = document.createElement('button');
+        btnElement.appendChild(_createSVGElement(svg_editIcon));
         categoryElement.appendChild(btnElement);
         btnElement.classList.add('edit-category-btn', 'round-btn');
 
@@ -135,6 +137,12 @@ const uiManager = (() => {
         })
 
         return btnElement;
+    }
+    const _createSVGElement = (svg)=>{
+        const imgElement = new Image();
+        imgElement.src = svg;
+        imgElement.classList.add('default-svg');
+        return imgElement;
     }
     const _createItem = (task) => {
         let itemElement = document.createElement('item');

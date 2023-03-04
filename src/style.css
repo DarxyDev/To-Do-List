@@ -25,8 +25,8 @@
     --tint-dark-high: rgba(0, 0, 0, .75);
 
     --tint-light-med: rgba(255, 255, 255, .5);
-     /* other */
-     --default-transition-time: 2s;
+    /* other */
+    --default-transition-time: 2s;
 }
 
 body {
@@ -109,8 +109,10 @@ category {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap:1rem;
     cursor: pointer;
     user-select: none;
+    padding:0px 10px;
 }
 
 category:last-child {
@@ -138,8 +140,31 @@ category>h4 {
     margin-left: 1rem;
 }
 
+.edit-category-btn {
+    width: 50px;
+    height:50px;
+    background: none;
+}
+
+.category-name-input {
+    width: 100%;
+    height: 100%;
+    background-color: var(--tint-dark-low);
+    border: none;
+    outline: none;
+    text-align: center;
+}
+
+.category-name,
+.category-name-input {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+
 .round-btn {
-    border-radius: 100vmin;
+    border-radius: 100vmax;
 }
 
 #to-do-section {
@@ -166,8 +191,8 @@ category>h4 {
     padding: 1rem 0 1rem 3rem;
     box-sizing: border-box;
     display: flex;
-    flex-wrap:wrap;
-    gap:var(--item-container-gap);
+    flex-wrap: wrap;
+    gap: var(--item-container-gap);
 }
 
 item {
@@ -236,29 +261,12 @@ item:hover {
     display: none;
 }
 
-.edit-category-btn {
-    width: 1rem;
-    height: 1rem;
-}
-
-.category-name-input {
-    width: 100%;
-    height: 100%;
-    background-color: var(--tint-dark-low);
-    border: none;
-    outline: none;
-    text-align: center;
-}
-
-.category-name,
-.category-name-input {
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 800;
-}
-
 .delete-task-btn {
     position: absolute;
     top: 1rem;
     left: 1rem;
+}
+.default-svg{
+    height:100%;
+    width:100%;
 }
