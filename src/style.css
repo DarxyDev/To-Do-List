@@ -24,6 +24,7 @@
     --tint-dark-med: rgba(0, 0, 0, .5);
     --tint-dark-high: rgba(0, 0, 0, .75);
 
+    --tint-light-low:rgba(255,255,255, .25);
     --tint-light-med: rgba(255, 255, 255, .5);
     /* other */
     --default-transition-time: 2s;
@@ -102,6 +103,7 @@ footer {
 }
 
 category {
+    position:relative;
     background-color: var(--col-default-category);
     text-align: center;
     box-shadow: inset var(--category-box-shadow-size) var(--tint-dark-med);
@@ -109,10 +111,10 @@ category {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:1rem;
+    gap:.25rem;
     cursor: pointer;
     user-select: none;
-    padding:0px 10px;
+    padding:0px .25rem;
 }
 
 category:last-child {
@@ -124,7 +126,7 @@ category:not(.selected-category):hover {
 }
 
 category>h4 {
-    background-color: var(--tint-light-med);
+    background-color: var(--tint-light-low);
     border-radius: var(--default-border-radius);
     width: calc(100% - 10px);
     height: calc(100% - 10px);
@@ -141,9 +143,16 @@ category>h4 {
 }
 
 .edit-category-btn {
-    width: 50px;
-    height:50px;
+    position:relative;
+    width: 1rem;
+    height:1rem;
     background: none;
+    padding:0;
+    margin:0;
+    opacity:.4;
+}
+.edit-category-btn:hover{
+    opacity:.8;
 }
 
 .category-name-input {
