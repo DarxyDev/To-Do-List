@@ -129,6 +129,8 @@ const uiManager = (() => {
             }
             function _onDragEnd(e) {
                 let targetElement = _dragTarget.get();
+                if(targetElement === undefined) return;
+                if(targetElement === this) return;
                 if(targetElement.nodeName !== "CATEGORY") return;
                 this.remove();
                 targetElement.parentNode.insertBefore(this, targetElement);
