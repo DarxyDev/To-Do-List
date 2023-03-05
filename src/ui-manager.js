@@ -91,10 +91,10 @@ const uiManager = (() => {
     //private functions
     const _dragTarget = (() => {
         let target;
-        function get(){return target;}
-        function set(t){target = t;}
-        return {get,set};
-     })()
+        function get() { return target; }
+        function set(t) { target = t; }
+        return { get, set };
+    })()
 
     const _createCategory = (category) => {
         let categoryElement = document.createElement('category');
@@ -119,23 +119,26 @@ const uiManager = (() => {
         function _setDragAndDrop(element) {
 
             element.setAttribute('draggable', true);
-            element.addEventListener('dragstart', _onDragStart);
+          //  element.addEventListener('dragstart', _onDragStart);
             element.addEventListener('dragend', _onDragEnd);
             element.addEventListener('dragover', _onDragOver);
-            element.addEventListener('dragenter', _onDragEnter);
+            //element.addEventListener('dragenter', _onDragEnter);
 
             function _onDragStart(e) {
 
             }
             function _onDragEnd(e) {
-                console.log(_dragTarget.get());
+                let targetElement = _dragTarget.get();
+                if(targetElement.nodeName !== "CATEGORY") return;
+                this.remove();
+                targetElement.parentNode.insertBefore(this, targetElement);
             }
             function _onDragOver(e) {
                 _dragTarget.set(e.target.closest('category'));
                 e.preventDefault();
             }
             function _onDragEnter(e) {
-                e.preventDefault();
+                // e.preventDefault();
             }
         }
     }
