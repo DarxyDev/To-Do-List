@@ -89,11 +89,29 @@ const uiManager = (() => {
 
 
     //private functions
-    const _dragTarget = (() => {
-        let target;
-        function get() { return target; }
-        function set(t) { target = t; }
-        return { get, set };
+    const _dragStatic = (() => {
+        const dragTarget = {
+            target: undefined,
+            set: (t) => { dragTarget.target = t; },
+            get: () => { return dragTarget.target; }
+        };
+
+        const spacerElement = {
+            element: _createSpacerElement(),
+            get: function(){ return this.element },
+            appendBefore: function (element) {
+                let parent = element.parentNode;
+                element.remove();
+                parent.insertBefore(element, this.element);
+                this.element.remove();
+            }
+        }
+        return { dragTarget, spacerElement };
+        function _createSpacerElement() {
+            let element = document.createElement('category');
+            element.classList.add('category-spacer');
+            return element;
+        }
     })()
 
     const _createCategory = (category) => {
@@ -117,30 +135,27 @@ const uiManager = (() => {
         return categoryElement;
 
         function _setDragAndDrop(element) {
-
+            // Possibly need dragenter with e.preventDefault().
+            // Removed as it is working without it.
             element.setAttribute('draggable', true);
-          //  element.addEventListener('dragstart', _onDragStart);
             element.addEventListener('dragend', _onDragEnd);
             element.addEventListener('dragover', _onDragOver);
-            //element.addEventListener('dragenter', _onDragEnter);
-
-            function _onDragStart(e) {
-
-            }
             function _onDragEnd(e) {
-                let targetElement = _dragTarget.get();
-                if(targetElement === undefined) return;
-                if(targetElement === this) return;
-                if(targetElement.nodeName !== "CATEGORY") return;
-                this.remove();
-                targetElement.parentNode.insertBefore(this, targetElement);
+                _dragStatic.spacerElement.appendBefore(e.currentTarget);
             }
             function _onDragOver(e) {
-                _dragTarget.set(e.target.closest('category'));
+                let target = e.target.closest('category');
+                _dragStatic.dragTarget.set(target);
                 e.preventDefault();
+                if (!_isValidDrop(_dragStatic.dragTarget.get())) return;
+                target.parentNode.insertBefore(_dragStatic.spacerElement.element, target);
+
             }
-            function _onDragEnter(e) {
-                // e.preventDefault();
+            function _isValidDrop(element) {
+                if (element === undefined) return false;
+                if (element === this) return false;
+                if (element.nodeName !== "CATEGORY") return false;
+                return true;
             }
         }
     }
