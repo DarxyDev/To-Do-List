@@ -1,5 +1,6 @@
 import interlinkManager from './interlink-manager.js';
 import svg_editIcon from './img/edit-icon.svg'
+import './mouse-drag.js';
 
 const uiManager = (() => {
     //references
@@ -88,6 +89,13 @@ const uiManager = (() => {
 
 
     //private functions
+    const _dragTarget = (() => {
+        let target;
+        function get(){return target;}
+        function set(t){target = t;}
+        return {get,set};
+     })()
+
     const _createCategory = (category) => {
         let categoryElement = document.createElement('category');
         categoryElement.classList.add('category-name');
@@ -99,12 +107,37 @@ const uiManager = (() => {
         _addEditBtnToElement(categoryElement);
         categoryElement.appendChild(nameElement);
 
-        categoryElement.addEventListener('click', (e) => {
+        categoryElement.addEventListener('mousedown', (e) => {
             _selectCategory(+e.currentTarget.getAttribute('index'));
         });
 
+        _setDragAndDrop(categoryElement);
+
         ref.categories.push(categoryElement);
         return categoryElement;
+
+        function _setDragAndDrop(element) {
+
+            element.setAttribute('draggable', true);
+            element.addEventListener('dragstart', _onDragStart);
+            element.addEventListener('dragend', _onDragEnd);
+            element.addEventListener('dragover', _onDragOver);
+            element.addEventListener('dragenter', _onDragEnter);
+
+            function _onDragStart(e) {
+
+            }
+            function _onDragEnd(e) {
+                console.log(_dragTarget.get());
+            }
+            function _onDragOver(e) {
+                _dragTarget.set(e.target.closest('category'));
+                e.preventDefault();
+            }
+            function _onDragEnter(e) {
+                e.preventDefault();
+            }
+        }
     }
     const _addEditBtnToElement = (element) => {
         let btnElement = document.createElement('button');
@@ -130,7 +163,7 @@ const uiManager = (() => {
             titleElement.appendChild(inputElement);
             inputElement.select();
 
-            function _setInput(){
+            function _setInput() {
                 const newName = inputElement.value;
                 titleElement.textContent = newName;
                 inputElement.remove();
@@ -143,7 +176,7 @@ const uiManager = (() => {
 
         return btnElement;
     }
-    const _createSVGElement = (svg)=>{
+    const _createSVGElement = (svg) => {
         const imgElement = new Image();
         imgElement.src = svg;
         imgElement.classList.add('default-svg');
@@ -177,12 +210,12 @@ const uiManager = (() => {
                 itemElement.addEventListener('transitionend', (e) => {
                     if (e.propertyName === 'margin-right')
                         itemElement.remove();
-                    if(e.propertyName === 'margin-right') console.log('delete?');
+                    if (e.propertyName === 'margin-right') console.log('delete?');
                 });
                 let itemWidth = itemElement.offsetWidth;
                 itemElement.style.marginRight = `calc(${itemWidth * -1}px - var(--item-container-gap))`;
                 itemElement.style.opacity = 0;
-                
+
             })
 
             return btn;

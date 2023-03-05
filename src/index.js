@@ -7,7 +7,7 @@ import uiManager from './ui-manager';
 (() => {
 
     //populate with data:
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 5; i++) {
         let cat = taskManager.newCategory(`cat_${i}`);
         for (let j = 0; j < 5; j++) {
             let task = cat.newTask(`task_${j}`, `This is task number ${j} in category ${cat.name}`);
