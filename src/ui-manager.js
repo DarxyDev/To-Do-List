@@ -31,13 +31,15 @@ const uiManager = (() => {
         categories: [],
         items: [],
     }
-    //variables
+    //variables / settings
+    const usingCloneNode = true;
     let selectedCategoryIndex = 0;
     const colors = {
         getPriorityLevelColor: (priority) => {
             return `rgba(255,255,255,${(priority * .1 + .2)})`;
         }
     };
+
 
     //Initialize - Call in index.js
     const init = () => {
@@ -98,19 +100,29 @@ const uiManager = (() => {
 
         const spacerElement = {
             element: _createSpacerElement(),
-            get: function(){ return this.element },
+            get: function () { return this.element },
+            set: function (e) { this.element = e },
             appendBefore: function (element) {
                 let parent = element.parentNode;
                 element.remove();
                 parent.insertBefore(element, this.element);
                 this.element.remove();
+            },
+            appendAfter: function (element) { //unused
+                let parent = element.parendNode;
+                element.remove();
+                parent.appendChild(element);
+                this.element.remove();
+            },
+            setText: function () {
+                console.log("does nothing yet")
             }
         }
         return { dragTarget, spacerElement };
         function _createSpacerElement() {
             let element = document.createElement('category');
             element.classList.add('category-spacer');
-            element.addEventListener('dragover',(e)=>{e.preventDefault()})
+            element.addEventListener('dragover', (e) => { e.preventDefault() })
             return element;
         }
     })()
@@ -138,11 +150,13 @@ const uiManager = (() => {
         function _setDragAndDrop(element) {
             // Possibly need dragenter with e.preventDefault().
             // Removed as it is working without it.
+            // Needs further testing on other browsers.
             element.setAttribute('draggable', true);
             element.addEventListener('dragend', _onDragEnd);
             element.addEventListener('dragover', _onDragOver);
             element.addEventListener('dragstart', _onDragStart);
             function _onDragEnd(e) {
+                e.currentTarget.classList.remove('hidden');
                 _dragStatic.spacerElement.appendBefore(e.currentTarget);
             }
             function _onDragOver(e) {
@@ -150,19 +164,48 @@ const uiManager = (() => {
                 _dragStatic.dragTarget.set(target);
                 e.preventDefault();
                 if (!_isValidDrop(_dragStatic.dragTarget.get())) return;
-                target.parentNode.insertBefore(_dragStatic.spacerElement.element, target);
+                if (_mouseOnLeftSideOfElement(e, target))
+                    target.parentNode.insertBefore(_dragStatic.spacerElement.element, target);
+                else _insertAfter(_dragStatic.spacerElement.element, target);
 
-            }
-            function _onDragStart(e){
-                console.log('need to find a way to hide the tab while dragging');
-            }
-            function _isValidDrop(element) {
-                if (element === undefined) return false;
-                if (element === this) return false;
-                if (element.nodeName !== "CATEGORY") return false;
-                return true;
+                return;
+
+                function _mouseOnLeftSideOfElement(event, target) {
+                    let rect = target.getBoundingClientRect();
+                    let leftBound = rect.left;
+                    let width = rect.width;
+                    let mousePos = event.clientX;
+                    if((mousePos - leftBound) < (width / 2) ) return true;
+                    return false;
+                }
+                function _insertAfter(newElement, refElement) {
+                    if (!refElement.nextSibling) {
+                        refElement.parentNode.appendChild(newElement);
+                        return;
+                    }
+                    refElement = refElement.nextSibling;
+                    refElement.parentNode.insertBefore(newElement, refElement);
+                }
             }
         }
+        function _onDragStart(e) {
+            let fillerElement;
+            if (usingCloneNode) {
+                fillerElement = e.currentTarget.cloneNode(true);
+                fillerElement.addEventListener('dragover', (e) => { e.preventDefault() })
+            }
+            else fillerElement = _dragStatic.spacerElement.get();
+            _dragStatic.spacerElement.set(fillerElement);
+            e.currentTarget.parentNode.insertBefore(fillerElement,e.currentTarget);
+            e.currentTarget.classList.add('hidden');
+        }
+        function _isValidDrop(element) {
+            if (element === undefined) return false;
+            if (element === this) return false;
+            if (element.nodeName !== "CATEGORY") return false;
+            return true;
+        }
+
     }
     const _addEditBtnToElement = (element) => {
         let btnElement = document.createElement('button');
@@ -235,7 +278,6 @@ const uiManager = (() => {
                 itemElement.addEventListener('transitionend', (e) => {
                     if (e.propertyName === 'margin-right')
                         itemElement.remove();
-                    if (e.propertyName === 'margin-right') console.log('delete?');
                 });
                 let itemWidth = itemElement.offsetWidth;
                 itemElement.style.marginRight = `calc(${itemWidth * -1}px - var(--item-container-gap))`;
