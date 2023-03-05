@@ -7,6 +7,7 @@
     --default-box-shadow: 1px 1px 1px 1px;
     --category-box-shadow-size: 0px 0px 2px 1px;
     --item-container-gap: 2rem;
+    --category-width: 5rem;
 
     /* colors */
     --col-main-bg: rgb(150, 147, 180);
@@ -24,7 +25,7 @@
     --tint-dark-med: rgba(0, 0, 0, .5);
     --tint-dark-high: rgba(0, 0, 0, .75);
 
-    --tint-light-low:rgba(255,255,255, .25);
+    --tint-light-low: rgba(255, 255, 255, .25);
     --tint-light-med: rgba(255, 255, 255, .5);
     /* other */
     --default-transition-time: 2s;
@@ -99,22 +100,27 @@ footer {
     border: none;
     box-shadow: none;
     background-color: var(--col-to-do-section);
-    width: 8rem;
+    width: calc(var(--category-width) * 1.4);
+}
+
+.category-spacer {
+    background-color: var(--tint-light-med);
+    width: calc(var(--category-width) * 1.4);
 }
 
 category {
-    position:relative;
+    position: relative;
     background-color: var(--col-default-category);
     text-align: center;
     box-shadow: inset var(--category-box-shadow-size) var(--tint-dark-med);
-    width: 5rem;
+    width: var(--category-width);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:.25rem;
+    gap: .25rem;
     cursor: pointer;
     user-select: none;
-    padding:0px .25rem;
+    padding: 0px .25rem;
 }
 
 category:last-child {
@@ -143,16 +149,17 @@ category>h4 {
 }
 
 .edit-category-btn {
-    position:relative;
+    position: relative;
     width: 1rem;
-    height:1rem;
+    height: 1rem;
     background: none;
-    padding:0;
-    margin:0;
-    opacity:.4;
+    padding: 0;
+    margin: 0;
+    opacity: .4;
 }
-.edit-category-btn:hover{
-    opacity:.8;
+
+.edit-category-btn:hover {
+    opacity: .8;
 }
 
 .category-name-input {
@@ -169,9 +176,6 @@ category>h4 {
     text-align: center;
     font-size: 1rem;
     font-weight: 600;
-}
-.category-spacer{
-    background-color:var(--tint-light-med);
 }
 
 .round-btn {
@@ -277,7 +281,8 @@ item:hover {
     top: 1rem;
     left: 1rem;
 }
-.default-svg{
-    height:100%;
-    width:100%;
+
+.default-svg {
+    height: 100%;
+    width: 100%;
 }

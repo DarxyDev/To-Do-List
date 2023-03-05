@@ -110,6 +110,7 @@ const uiManager = (() => {
         function _createSpacerElement() {
             let element = document.createElement('category');
             element.classList.add('category-spacer');
+            element.addEventListener('dragover',(e)=>{e.preventDefault()})
             return element;
         }
     })()
@@ -140,6 +141,7 @@ const uiManager = (() => {
             element.setAttribute('draggable', true);
             element.addEventListener('dragend', _onDragEnd);
             element.addEventListener('dragover', _onDragOver);
+            element.addEventListener('dragstart', _onDragStart);
             function _onDragEnd(e) {
                 _dragStatic.spacerElement.appendBefore(e.currentTarget);
             }
@@ -150,6 +152,9 @@ const uiManager = (() => {
                 if (!_isValidDrop(_dragStatic.dragTarget.get())) return;
                 target.parentNode.insertBefore(_dragStatic.spacerElement.element, target);
 
+            }
+            function _onDragStart(e){
+                console.log('need to find a way to hide the tab while dragging');
             }
             function _isValidDrop(element) {
                 if (element === undefined) return false;
