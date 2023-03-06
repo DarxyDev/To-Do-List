@@ -124,7 +124,11 @@ category {
 }
 
 category:last-child {
-    border-top-right-radius: 5px;
+    border-top-right-radius: var(--default-border-radius);
+}
+
+category:first-child {
+    border-top-left-radius: var(--default-border-radius);
 }
 
 category:not(.selected-category):hover {

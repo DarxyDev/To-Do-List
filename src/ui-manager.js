@@ -1,6 +1,5 @@
 import interlinkManager from './interlink-manager.js';
-import svg_editIcon from './img/edit-icon.svg'
-import './mouse-drag.js';
+import svg_editIcon from './img/edit-icon.svg';
 
 const uiManager = (() => {
     //references
@@ -135,8 +134,9 @@ const uiManager = (() => {
         nameElement.textContent = category.name;
         categoryElement.setAttribute('index', ref.categories.length);
 
-        _addEditBtnToElement(categoryElement);
+        categoryElement.appendChild(_createEditBtn());
         categoryElement.appendChild(nameElement);
+        categoryElement.appendChild(_createDeleteBtn());
 
         categoryElement.addEventListener('mousedown', (e) => {
             _selectCategory(+e.currentTarget.getAttribute('index'));
@@ -205,45 +205,52 @@ const uiManager = (() => {
             if (element.nodeName !== "CATEGORY") return false;
             return true;
         }
+        function _createEditBtn() {
+            let btnElement = document.createElement('button');
+            btnElement.appendChild(_createSVGElement(svg_editIcon));
+            btnElement.classList.add('edit-category-btn', 'round-btn');
+    
+            btnElement.addEventListener('click', (e) => {
+                const parent = e.currentTarget.parentElement;
+                const titleElement = parent.querySelector('h4');
+                let originalTitle = titleElement.textContent;
+                titleElement.textContent = '';
+    
+                const inputElement = document.createElement('input');
+                inputElement.value = originalTitle;
+                inputElement.setAttribute('type', 'text');
+                inputElement.classList.add('category-name-input');
+                inputElement.addEventListener('keypress', (e) => {
+                    if (e.key !== 'Enter') return;
+                    _setInput();
+                });
+                inputElement.addEventListener('focusout', _setInput);
+                titleElement.appendChild(inputElement);
+                inputElement.select();
+
+                return;
+
+                function _setInput() {
+                    const newName = inputElement.value;
+                    titleElement.textContent = newName;
+                    inputElement.remove();
+    
+                    let index = parent.getAttribute('index');
+                    let thisCategory = interlinkManager.getCategoryArray()[index];
+                    thisCategory.name = newName;
+                }
+            })
+    
+            return btnElement;
+        }
+        function _createDeleteBtn(){
+            console.log('woo!')
+
+            return document.createElement('p');
+        }
 
     }
-    const _addEditBtnToElement = (element) => {
-        let btnElement = document.createElement('button');
-        btnElement.appendChild(_createSVGElement(svg_editIcon));
-        element.appendChild(btnElement);
-        btnElement.classList.add('edit-category-btn', 'round-btn');
 
-        btnElement.addEventListener('click', (e) => {
-            const parent = e.currentTarget.parentElement;
-            const titleElement = parent.querySelector('h4');
-            let originalTitle = titleElement.textContent;
-            titleElement.textContent = '';
-
-            const inputElement = document.createElement('input');
-            inputElement.value = originalTitle;
-            inputElement.setAttribute('type', 'text');
-            inputElement.classList.add('category-name-input');
-            inputElement.addEventListener('keypress', (e) => {
-                if (e.key !== 'Enter') return;
-                _setInput();
-            });
-            inputElement.addEventListener('focusout', _setInput);
-            titleElement.appendChild(inputElement);
-            inputElement.select();
-
-            function _setInput() {
-                const newName = inputElement.value;
-                titleElement.textContent = newName;
-                inputElement.remove();
-
-                let index = parent.getAttribute('index');
-                let thisCategory = interlinkManager.getCategoryArray()[index];
-                thisCategory.name = newName;
-            }
-        })
-
-        return btnElement;
-    }
     const _createSVGElement = (svg) => {
         const imgElement = new Image();
         imgElement.src = svg;
@@ -326,7 +333,7 @@ const uiManager = (() => {
         }
         else ref.menu.newTask.container.classList.add('hidden');
     }
-    const _submitNewTask = () => { //submit.eventListener
+    const _submitNewTask = () => {
         let formElements = ref.menu.newTask.form;
         let name = formElements.name.value;
         let description = formElements.description.value;
