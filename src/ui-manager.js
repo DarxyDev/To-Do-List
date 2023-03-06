@@ -2,7 +2,7 @@ import interlinkManager from './interlink-manager.js';
 import svg_editIcon from './img/edit-icon.svg';
 
 const uiManager = (() => {
-    //references
+    //static references
     const ref = {
         container: {
             item: document.getElementById('item-container'),
