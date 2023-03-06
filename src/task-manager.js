@@ -79,9 +79,7 @@ const taskManager = (() => {
     const removeCategory = (categoryOrIndex) => {
         let categoryIndex = _getArrayIndex(_categories[categoryOrIndex], getCategories());
         if(categoryIndex < 0) return;
-        console.log('1');
         _categories.splice(categoryIndex,1);
-        console.log('2');
         _updateIndexes(_categories);
     }
     return { newCategory, newTask, getCategories, getTasks, removeCategory };

@@ -7,7 +7,7 @@
     --default-box-shadow: 1px 1px 1px 1px;
     --category-box-shadow-size: 0px 0px 2px 1px;
     --item-container-gap: 2rem;
-    --category-width: 5rem;
+    --category-width: 7rem;
 
     /* colors */
     --col-main-bg: rgb(150, 147, 180);
@@ -152,17 +152,17 @@ category>h4 {
     margin-left: 1rem;
 }
 
-.edit-category-btn {
+.edit-category-btn, .delete-category-btn {
     position: relative;
     width: 1rem;
     height: 1rem;
     background: none;
     padding: 0;
     margin: 0;
-    opacity: .4;
+    opacity: .5;
 }
 
-.edit-category-btn:hover {
+.edit-category-btn:hover, .delete-category-btn:hover {
     opacity: .8;
 }
 
@@ -180,6 +180,9 @@ category>h4 {
     text-align: center;
     font-size: 1rem;
     font-weight: 600;
+}
+.delete-category-btn{
+    font-size: .75em;
 }
 
 .round-btn {

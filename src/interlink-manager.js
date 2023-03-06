@@ -10,7 +10,10 @@ const interlinkManager = (() => {
     const newCategory = (name) => {
         return taskManager.newCategory();
     }
-    return { getTaskArray, getCategoryArray, newCategory };
+    const removeCategory = (index) =>{
+        taskManager.removeCategory(index);
+    }
+    return { getTaskArray, getCategoryArray, newCategory, removeCategory };
 })()
 
 export default interlinkManager;

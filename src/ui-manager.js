@@ -113,9 +113,6 @@ const uiManager = (() => {
                 parent.appendChild(element);
                 this.element.remove();
             },
-            setText: function () {
-                console.log("does nothing yet")
-            }
         }
         return { dragTarget, spacerElement };
         function _createSpacerElement() {
@@ -175,7 +172,7 @@ const uiManager = (() => {
                     let leftBound = rect.left;
                     let width = rect.width;
                     let mousePos = event.clientX;
-                    if((mousePos - leftBound) < (width / 2) ) return true;
+                    if ((mousePos - leftBound) < (width / 2)) return true;
                     return false;
                 }
                 function _insertAfter(newElement, refElement) {
@@ -196,7 +193,7 @@ const uiManager = (() => {
             }
             else fillerElement = _dragStatic.spacerElement.get();
             _dragStatic.spacerElement.set(fillerElement);
-            e.currentTarget.parentNode.insertBefore(fillerElement,e.currentTarget);
+            e.currentTarget.parentNode.insertBefore(fillerElement, e.currentTarget);
             e.currentTarget.classList.add('hidden');
         }
         function _isValidDrop(element) {
@@ -209,13 +206,13 @@ const uiManager = (() => {
             let btnElement = document.createElement('button');
             btnElement.appendChild(_createSVGElement(svg_editIcon));
             btnElement.classList.add('edit-category-btn', 'round-btn');
-    
+
             btnElement.addEventListener('click', (e) => {
-                const parent = e.currentTarget.parentElement;
+                const parent = e.currentTarget.parentNode;
                 const titleElement = parent.querySelector('h4');
                 let originalTitle = titleElement.textContent;
                 titleElement.textContent = '';
-    
+
                 const inputElement = document.createElement('input');
                 inputElement.value = originalTitle;
                 inputElement.setAttribute('type', 'text');
@@ -234,19 +231,45 @@ const uiManager = (() => {
                     const newName = inputElement.value;
                     titleElement.textContent = newName;
                     inputElement.remove();
-    
+
                     let index = parent.getAttribute('index');
                     let thisCategory = interlinkManager.getCategoryArray()[index];
                     thisCategory.name = newName;
                 }
             })
-    
+
             return btnElement;
         }
-        function _createDeleteBtn(){
-            console.log('woo!')
+        function _createDeleteBtn() {
+            let btn = document.createElement('button');
+            btn.classList.add('delete-category-btn', 'round-btn');
+            btn.textContent = 'X';
+            btn.addEventListener('click', _onClickDeleteCat);
 
-            return document.createElement('p');
+            return btn;
+            function _onClickDeleteCat(e) {
+                let catElement = e.currentTarget.parentNode;
+                let catIndex = +catElement.getAttribute('index');
+                _removeCategory(catIndex);
+                interlinkManager.removeCategory(catIndex);
+                catElement.remove();
+                if (catIndex < ref.categories.length)
+                    _selectCategory(catIndex)
+                else _selectCategory(catIndex - 1);
+
+                function _removeCategory(index) {
+                    let catArray = ref.categories;
+                    catArray.splice(index, 1);
+                    _updateCategoryIndexes();
+
+                    function _updateCategoryIndexes() {
+                        for (let i = 0; i < ref.categories.length; i++) {
+                            ref.categories[i].setAttribute('index', i);
+                        }
+                    }
+                }
+
+            }
         }
 
     }
@@ -296,7 +319,13 @@ const uiManager = (() => {
         }
     }
     const _selectCategory = (categoryIndex) => {
-        ref.categories[selectedCategoryIndex].classList.remove('selected-category');
+        if ((selectedCategoryIndex >= 0) && (selectedCategoryIndex < ref.categories.length))
+            ref.categories[selectedCategoryIndex].classList.remove('selected-category');
+        if ((categoryIndex < 0) || (categoryIndex >= ref.categories.length)) {
+            _clearItems();
+            selectedCategoryIndex = -1;
+            return;
+        }
         ref.categories[categoryIndex].classList.add('selected-category');
         selectedCategoryIndex = categoryIndex;
 
@@ -312,6 +341,7 @@ const uiManager = (() => {
         categoryElement.querySelector('.edit-category-btn').click();
     }
     function _openAddTaskMenu() {
+        if (selectedCategoryIndex < 0 || selectedCategoryIndex > ref.categories.length) return;
         _showBlackout(true);
         _showAddTaskMenu(true);
     }
