@@ -36,11 +36,31 @@
             </div>
             <div id='blackout-container' class=" abs-center"> <!-- removed hidden for testing purposes -->
                 <div id="add-task-popup" class="abs-center"> <!-- removed hidden for testing purposes -->
-                    <form action="" id="new-task-form">
-                        <input type="text" placeholder="Task Name" id="new-task-form-name">
-                        <input type="text" placeholder="Description" id="new-task-form-description">
-                        <button id="create-task-btn" type="button">Create</button>
+                    <form action="" id="NT-form">
+                        <div class="form-section flex-col">
+                            <input type="text" placeholder="Task Name" id="NT-form-name">
+                            <textarea rows="4" type="text" placeholder="Description"
+                                id="NT-form-description"></textarea>
+                        </div>
+                        <divider></divider>
+                        <div class="form-section form-section-flex-row space-evenly">
+                            <div class="form-item flex-col">
+                                <label for="NT-form-priority">Priority</label>
+                                <input type="number" value="0" min="0" max="4" placeholder="0 - 4" id="NT-form-priority">
+                            </div>
+                            <divider></divider>
+                            <div class="form-item flex-col">
+                                <label for="NT-form-due-date">Complete by</label>
+                                <input type="date" id="NT-form-due-date">
+                            </div>
+                            <divider></divider>
+                            <div class="form-item flex-col">
+                                <label for="NT-form-color">Color</label>
+                                <input type="color" id="NT-form-color">
+                            </div>
+                        </div>
                     </form>
+                    <button id="create-task-btn" type="button">Create</button>
                 </div>
             </div>
         </main>
