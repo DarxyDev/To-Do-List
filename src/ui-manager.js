@@ -20,9 +20,9 @@ const uiManager = (() => {
                     submit: document.getElementById('create-task-btn'),
                 },
                 form: {
-                    form: document.getElementById('new-task-form'),
-                    name: document.getElementById('new-task-form-name'),
-                    description: document.getElementById('new-task-form-description'),
+                    form: document.getElementById('NT-form'),
+                    name: document.getElementById('NT-form-name'),
+                    description: document.getElementById('NT-form-description'),
                 },
             },
         },
