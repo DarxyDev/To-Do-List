@@ -24,19 +24,14 @@
                 </div>
                 <div id="to-do-section">
                     <div id="item-window">
-                        <div id="item-container">
-                            <item>
-                                <h3>This is a to-do title</h3>
-                                <p>This is a description of what the todo consists of.</p>
-                            </item>
-                        </div>
+                        <div id="item-container"></div>
                         <button id="open-new-task-menu-btn" class="round-btn">+</button>
                     </div>
                 </div>
             </div>
             <!-- Menus (.hidden required on all popups ) -->
-            <div id='blackout-container' class=" abs-center"> <!-- removed hidden for testing purposes -->
-                <div id="add-task-popup" class="abs-center"> <!-- removed hidden for testing purposes -->
+            <div id='blackout-container' class=" abs-center hidden"> <!-- removed hidden for testing purposes -->
+                <div id="add-task-popup" class="abs-center hidden"> <!-- removed hidden for testing purposes -->
                     <form action="" id="NT-form">
                         <div class="form-section flex-col">
                             <input type="text" placeholder="Task Name" id="NT-form-name">
@@ -54,6 +49,10 @@
                                 <label for="NT-form-due-date">Complete by</label>
                                 <input type="date" id="NT-form-due-date">
                             </div>
+                            <div class="form-item flex-col">
+                                <label for="NT-form-due-time">Complete by</label>
+                                <input type="time" id="NT-form-due-time">
+                            </div>
                             <divider></divider>
                             <div class="form-item flex-col">
                                 <label for="NT-form-color">Color</label>
@@ -62,7 +61,7 @@
                         </div>
                     </form>
                     <button id="create-task-btn" type="button">Create</button>
-                    <button id="close-NT-form">X</button>
+                    <button id="close-NT-form-btn">X</button>
                 </div>
             </div>
         </main>
