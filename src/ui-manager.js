@@ -370,7 +370,7 @@ const uiManager = (() => {
                     date.setHours(timeArray[0]);
                     date.setMinutes(timeArray[1]);
                     if (timeArray[2]) date.setSeconds(timeArray[2]);
-                    if(currentDate.getTime() > date.getTime()){
+                    while(currentDate.getTime() > date.getTime()){
                         date.setDate(date.getDate() + 1);
                     }
 
