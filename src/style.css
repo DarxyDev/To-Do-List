@@ -344,3 +344,18 @@ divider{
     height: 100%;
     width: 100%;
 }
+#close-NT-form{
+    position:absolute;
+    top:0;
+    left:0;
+    background:none;
+    color:var(--tint-dark-med);
+    border-radius: var(--default-border-radius);
+    box-shadow:none;
+}
+#close-NT-form:hover{
+    background-color:var(--tint-dark-low);
+}
+#close-NT-form:active{
+    opacity:.8;
+}

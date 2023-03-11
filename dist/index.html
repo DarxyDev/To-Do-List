@@ -34,6 +34,7 @@
                     </div>
                 </div>
             </div>
+            <!-- Menus (.hidden required on all popups ) -->
             <div id='blackout-container' class=" abs-center"> <!-- removed hidden for testing purposes -->
                 <div id="add-task-popup" class="abs-center"> <!-- removed hidden for testing purposes -->
                     <form action="" id="NT-form">
@@ -56,11 +57,12 @@
                             <divider></divider>
                             <div class="form-item flex-col">
                                 <label for="NT-form-color">Color</label>
-                                <input type="color" id="NT-form-color">
+                                <input type="color" id="NT-form-color" value="#999999">
                             </div>
                         </div>
                     </form>
                     <button id="create-task-btn" type="button">Create</button>
+                    <button id="close-NT-form">X</button>
                 </div>
             </div>
         </main>

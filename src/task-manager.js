@@ -9,6 +9,8 @@ class Task {
         this.index = index;
     }
     priority = 0;
+    color;
+    dueDate;
 }
 class Category {
     constructor(name) {

@@ -23,6 +23,9 @@ const uiManager = (() => {
                     form: document.getElementById('NT-form'),
                     name: document.getElementById('NT-form-name'),
                     description: document.getElementById('NT-form-description'),
+                    priority: document.getElementById("NT-form-priority"),
+                    dueDate: document.getElementById('NT-form-due-date'),
+                    color: document.getElementById('NT-form-color')
                 },
             },
         },
@@ -368,8 +371,15 @@ const uiManager = (() => {
         let name = formElements.name.value;
         let description = formElements.description.value;
 
+        let priority = formElements.priority.value;
+        let dueDate = formElements.dueDate.value;
+        let color = formElements.color.value;
+
         let category = interlinkManager.getCategoryArray()[selectedCategoryIndex];
         let task = category.newTask(name, description);
+        task.priority = priority;
+        task.dueDate = dueDate;
+        task.color = color;
         addTasksDOM(task);
 
         _showBlackout(false);
