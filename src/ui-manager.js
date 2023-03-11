@@ -41,7 +41,8 @@ const uiManager = (() => {
     const colors = {
         getPriorityLevelColor: (priority) => {
             return `rgba(255,255,255,${(priority * .1 + .2)})`;
-        }
+        },
+        useCustomColor: false,
     };
 
 
@@ -54,6 +55,7 @@ const uiManager = (() => {
         ref.button.openNewTaskMenu.addEventListener('click', _openAddTaskMenu);
         ref.menu.newTask.button.submit.addEventListener('click', _submitNewTask);
         ref.menu.newTask.button.close.addEventListener('click', _closeAddTaskMenu);
+        ref.menu.newTask.form.color.addEventListener('change', ()=>{colors.useCustomColor = true;})
     }
 
     //public functions
@@ -88,7 +90,6 @@ const uiManager = (() => {
             return;
         }
         let itemElement = _createItem(tasks);
-        itemElement.style.backgroundColor = colors.getPriorityLevelColor(tasks.priority);
         ref.container.item.appendChild(itemElement);
         return itemElement;
     }
@@ -304,6 +305,8 @@ const uiManager = (() => {
         itemElement.appendChild(descriptionElement);
         itemElement.appendChild(widgetBar);
         itemElement.appendChild(deleteBtn);
+        if (colors.useCustomColor) itemElement.style.backgroundColor = task.color;
+        else itemElement.style.backgroundColor = colors.getPriorityLevelColor(task.priority);
 
         ref.items.push(itemElement);
         return itemElement;
@@ -370,7 +373,7 @@ const uiManager = (() => {
                     date.setHours(timeArray[0]);
                     date.setMinutes(timeArray[1]);
                     if (timeArray[2]) date.setSeconds(timeArray[2]);
-                    while(currentDate.getTime() > date.getTime()){
+                    while (currentDate.getTime() > date.getTime()) {
                         date.setDate(date.getDate() + 1);
                     }
 
@@ -471,6 +474,7 @@ const uiManager = (() => {
         ref.container.item.textContent = '';
     }
     function _resetTaskForm() {
+        colors.useCustomColor = false;
         ref.menu.newTask.form.form.reset();
     }
     const _showBlackout = (bool) => {
@@ -490,7 +494,7 @@ const uiManager = (() => {
         let description = formElements.description.value;
 
         let priority = formElements.priority.value;
-        let dueDate = formElements.dueDate.value;//changed from valueAsDate
+        let dueDate = formElements.dueDate.value;
         let dueTime = formElements.dueTime.value;
         let color = formElements.color.value;
 
