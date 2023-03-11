@@ -353,9 +353,11 @@ const uiManager = (() => {
                 return widgetContainer;
 
                 function _convertToDate(date, time) {
-                    console.log(date);
                     if (!date) {
-                        let dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+                        let year = currentDate.getFullYear();
+                        let month = currentDate.getMonth() + 1;
+                        let day = currentDate.getDate();
+                        let dateStr = year + '-' + month + '-' + day;
                         date = new Date(dateStr);
                     } else {
                         date = new Date(date);
@@ -368,6 +370,10 @@ const uiManager = (() => {
                     date.setHours(timeArray[0]);
                     date.setMinutes(timeArray[1]);
                     if (timeArray[2]) date.setSeconds(timeArray[2]);
+                    if(currentDate.getTime() > date.getTime()){
+                        date.setDate(date.getDate() + 1);
+                    }
+
                     return date;
                 }
                 function _getMinutesUntil(date) {
