@@ -18,6 +18,7 @@ const uiManager = (() => {
                 container: document.getElementById('add-task-popup'),
                 button: {
                     submit: document.getElementById('create-task-btn'),
+                    close: document.getElementById('close-NT-form-btn'),
                 },
                 form: {
                     form: document.getElementById('NT-form'),
@@ -25,6 +26,7 @@ const uiManager = (() => {
                     description: document.getElementById('NT-form-description'),
                     priority: document.getElementById("NT-form-priority"),
                     dueDate: document.getElementById('NT-form-due-date'),
+                    dueTime: document.getElementById('NT-form-due-time'),
                     color: document.getElementById('NT-form-color')
                 },
             },
@@ -50,7 +52,8 @@ const uiManager = (() => {
         //static element event listeners
         ref.button.addCategory.addEventListener('click', _addNewCategory);
         ref.button.openNewTaskMenu.addEventListener('click', _openAddTaskMenu);
-        ref.menu.newTask.button.submit.addEventListener('click', _submitNewTask)
+        ref.menu.newTask.button.submit.addEventListener('click', _submitNewTask);
+        ref.menu.newTask.button.close.addEventListener('click', _closeAddTaskMenu);
     }
 
     //public functions
@@ -286,20 +289,124 @@ const uiManager = (() => {
     const _createItem = (task) => {
         let itemElement = document.createElement('item');
 
-        let titleElement = document.createElement('h3');
+        let titleElement = document.createElement('div');
+        titleElement.classList.add('item-title');
         titleElement.textContent = task.name;
 
-        let descriptionElement = document.createElement('p');
+        let descriptionElement = document.createElement('div');
+        descriptionElement.classList.add('item-description');
         descriptionElement.textContent = task.description;
 
+        let widgetBar = _makeWidgetBar(task);
         let deleteBtn = _makeDeleteTaskBtn();
 
         itemElement.appendChild(titleElement);
         itemElement.appendChild(descriptionElement);
+        itemElement.appendChild(widgetBar);
         itemElement.appendChild(deleteBtn);
 
         ref.items.push(itemElement);
         return itemElement;
+
+        function _makeWidgetBar(task) {
+            const container = document.createElement('div');
+            container.classList.add('item-widget-container');
+            const widgets = [];
+            widgets.push(_makePriorityWidget(task.priority));
+            widgets.push(_makeDueDateWidget(task.dueDate, task.dueTime));
+
+            for (let i = 0; i < widgets.length; i++) { if (widgets[i]) container.appendChild(widgets[i]); }
+
+            return container;
+
+            function _makeWidgetContainer() {
+                const widgetContainer = document.createElement('div');
+                widgetContainer.classList.add('item-widget');
+                return widgetContainer;
+            }
+            function _makePriorityWidget(priority) {
+                priority = +priority;
+                const priorityElement = document.createElement('div');
+                let message = '!';
+                for (let i = 0; i < priority; i++) {
+                    message += '!';
+                }
+                priorityElement.textContent = message;
+
+
+                let widgetContainer = _makeWidgetContainer();
+                widgetContainer.appendChild(priorityElement);
+                return widgetContainer;
+
+            }
+            function _makeDueDateWidget(dateStr, timeStr) {
+                if (!dateStr) if (!timeStr) return;
+                let currentDate = new Date();
+
+                let dueDate = _convertToDate(dateStr, timeStr);
+                let minRemaining = _getMinutesUntil(dueDate);
+                let remainingStr = _formatMinRemaining(minRemaining);
+
+                let widgetContainer = _makeWidgetContainer();
+                widgetContainer.textContent = remainingStr;
+
+                return widgetContainer;
+
+                function _convertToDate(date, time) {
+                    console.log(date);
+                    if (!date) {
+                        let dateStr = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`;
+                        date = new Date(dateStr);
+                    } else {
+                        date = new Date(date);
+                    }
+                    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+                    if (!time) {
+                        time = '00:00';
+                    }
+                    let timeArray = time.split(':');
+                    date.setHours(timeArray[0]);
+                    date.setMinutes(timeArray[1]);
+                    if (timeArray[2]) date.setSeconds(timeArray[2]);
+                    return date;
+                }
+                function _getMinutesUntil(date) {
+                    let msDifference = date.getTime() - currentDate.getTime();
+                    return msDifference / 60000;
+                }
+                function _formatMinRemaining(minutes) {
+                    if (minutes < 0) return "Late";
+                    const MIN_HOUR = 60;
+                    const MIN_DAY = MIN_HOUR * 24;
+                    const MIN_WEEK = MIN_DAY * 7;
+                    const MIN_MONTH = MIN_WEEK * 28; //Approximation is good enough for now.
+                    const MIN_YEAR = MIN_DAY * 365; //ignoring leap years
+                    let message = '';
+
+                    switch (true) {
+                        case minutes > MIN_YEAR:
+                            message += Math.floor((minutes / MIN_YEAR)) + 'y';
+                            break;
+                        case minutes > MIN_MONTH:
+                            message += Math.floor((minutes / MIN_MONTH)) + 'm';
+                            break;
+                        case minutes > MIN_WEEK:
+                            message += Math.floor((minutes / MIN_WEEK)) + 'w';
+                            break;
+                        case minutes > MIN_DAY:
+                            message += Math.floor((minutes / MIN_DAY)) + 'd';
+                            break;
+                        case minutes > MIN_HOUR:
+                            message += Math.floor((minutes / MIN_HOUR)) + 'h';
+                            break;
+                        default:
+                            message += minutes + 'm';
+                    }
+
+                    return message;
+                }
+            }
+        }
 
         function _makeDeleteTaskBtn() {
             let btn = document.createElement('button');
@@ -348,6 +455,11 @@ const uiManager = (() => {
         _showBlackout(true);
         _showAddTaskMenu(true);
     }
+    function _closeAddTaskMenu() {
+        _showBlackout(false);
+        _showAddTaskMenu(false);
+        _resetTaskForm();
+    }
     const _clearItems = () => {
         ref.items = [];
         ref.container.item.textContent = '';
@@ -372,13 +484,15 @@ const uiManager = (() => {
         let description = formElements.description.value;
 
         let priority = formElements.priority.value;
-        let dueDate = formElements.dueDate.value;
+        let dueDate = formElements.dueDate.value;//changed from valueAsDate
+        let dueTime = formElements.dueTime.value;
         let color = formElements.color.value;
 
         let category = interlinkManager.getCategoryArray()[selectedCategoryIndex];
         let task = category.newTask(name, description);
         task.priority = priority;
         task.dueDate = dueDate;
+        task.dueTime = dueTime;
         task.color = color;
         addTasksDOM(task);
 

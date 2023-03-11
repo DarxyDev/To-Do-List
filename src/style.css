@@ -25,6 +25,7 @@
     --tint-dark-med: rgba(0, 0, 0, .5);
     --tint-dark-high: rgba(0, 0, 0, .75);
 
+    --tint-light-xlow: rgba(255, 255, 255, .15);
     --tint-light-low: rgba(255, 255, 255, .25);
     --tint-light-med: rgba(255, 255, 255, .5);
     /* other */
@@ -228,14 +229,57 @@ item {
     min-width: 300px;
     max-width: calc(33% - 2rem);
     word-wrap: break-word;
-    flex-grow: 1;
+    height:fit-content;
     box-shadow: var(--default-box-shadow) var(--tint-dark-low);
     cursor: pointer;
     transition: margin-right var(--default-transition-time), opacity calc(var(--default-transition-time) / 4);
+    
+    display:grid;
+    grid-template: fit-content fit-content 1rem / fit-content;
+    gap:1rem;
 }
 
 item:hover {
     box-shadow: var(--default-box-shadow) var(--tint-dark-med);
+}
+
+.item-title{
+    font-size:1.25rem;
+    font-weight:600;
+    background-color:var(--tint-light-xlow);
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    border-radius:var(--default-border-radius);
+    padding:.5rem;
+}
+.item-description{
+    background-color:var(--tint-light-xlow);
+    border-radius:var(--default-border-radius);
+    padding:.5rem;
+    box-sizing: border-box;
+    overflow:hidden;
+    word-wrap:break-word;
+    max-width:100%;
+}
+.item-widget-container:not(:empty){
+    border-radius:var(--default-border-radius);
+    padding: .5rem;
+    height:1rem;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.item-widget{
+    height:100%;
+    width: fit-content;
+    overflow:none;
+    padding:3px;
+    background-color:var(--tint-light-med);
+    border-radius:var(--default-border-radius);
+    display:flex;
+    align-items:center;
+    justify-content: center;
 }
 
 
@@ -337,25 +381,25 @@ divider{
 .delete-task-btn {
     position: absolute;
     top: 1rem;
-    left: 1rem;
+    right: 1rem;
 }
 
 .default-svg {
     height: 100%;
     width: 100%;
 }
-#close-NT-form{
+#close-NT-form-btn{
     position:absolute;
     top:0;
-    left:0;
+    right:0;
     background:none;
     color:var(--tint-dark-med);
     border-radius: var(--default-border-radius);
     box-shadow:none;
 }
-#close-NT-form:hover{
+#close-NT-form-btn:hover{
     background-color:var(--tint-dark-low);
 }
-#close-NT-form:active{
+#close-NT-form-btn:active{
     opacity:.8;
 }
