@@ -55,7 +55,7 @@ const uiManager = (() => {
         ref.button.openNewTaskMenu.addEventListener('click', _openAddTaskMenu);
         ref.menu.newTask.button.submit.addEventListener('click', _submitNewTask);
         ref.menu.newTask.button.close.addEventListener('click', _closeAddTaskMenu);
-        ref.menu.newTask.form.color.addEventListener('change', ()=>{colors.useCustomColor = true;})
+        ref.menu.newTask.form.color.addEventListener('change', ()=>{colors.useCustomColor = true;});
     }
 
     //public functions

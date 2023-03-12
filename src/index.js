@@ -5,7 +5,6 @@ import uiManager from './ui-manager';
 
 //initialization
 (() => {
-
     //populate with data:
     for (let i = 0; i < 5; i++) {
         let cat = taskManager.newCategory(`cat_${i}`);

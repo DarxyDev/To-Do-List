@@ -95,6 +95,7 @@ footer {
 
 #category-container {
     display: flex;
+    overflow-x:scroll;
 }
 
 .selected-category {
@@ -331,8 +332,8 @@ item:hover {
     flex-direction: column;
     box-sizing: border-box;
     overflow-y:scroll;
-    overflow-x:hidden;
-    justify-content: space-evenly;
+    overflow-x:scroll;
+    justify-content: space-between;
     padding: .5rem;
     margin:.5rem;
     border: solid 2px var(--tint-dark-med);
@@ -341,6 +342,30 @@ item:hover {
 .form-section{
     padding:.5rem;
     margin: .5rem;
+}
+#complete-by-section{
+    display:grid;
+    grid-template: 3rem 1fr / 1fr 1fr;
+}
+#complete-by-label{
+    grid-column: span 2;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.section-label{
+    background-color:var(--tint-dark-low);
+    border-radius:var(--default-border-radius);
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:fit-content;
+    width:fit-content;
+    box-sizing:border-box;
+    padding:6px 12px;
+}
+@media all and  (max-width:800px){
+    .form-section{flex-direction:column !important;}
 }
 .form-item{
     justify-content: center;

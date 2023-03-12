@@ -30,8 +30,8 @@
                 </div>
             </div>
             <!-- Menus (.hidden required on all popups ) -->
-            <div id='blackout-container' class=" abs-center hidden"> <!-- removed hidden for testing purposes -->
-                <div id="add-task-popup" class="abs-center hidden"> <!-- removed hidden for testing purposes -->
+            <div id='blackout-container' class=" abs-center hidden">
+                <div id="add-task-popup" class="abs-center hidden">
                     <form action="" id="NT-form">
                         <div class="form-section flex-col">
                             <input type="text" placeholder="Task Name" id="NT-form-name">
@@ -41,21 +41,25 @@
                         <divider></divider>
                         <div class="form-section form-section-flex-row space-evenly">
                             <div class="form-item flex-col">
-                                <label for="NT-form-priority">Priority</label>
-                                <input type="number" value="0" min="0" max="4" placeholder="0 - 4" id="NT-form-priority">
+                                <label for="NT-form-priority" class="section-label">Priority</label>
+                                <input type="number" value="0" min="0" max="4" placeholder="0 - 4"
+                                    id="NT-form-priority">
+                            </div>
+                            <divider></divider>
+                            <div id="complete-by-section">
+                                <div id="complete-by-label" ><label for=""class="section-label">Complete by</label></div>
+                                <div class="form-item flex-col">
+                                    <label for="NT-form-due-date">Date</label>
+                                    <input type="date" id="NT-form-due-date">
+                                </div>
+                                <div class="form-item flex-col">
+                                    <label for="NT-form-due-time">Time</label>
+                                    <input type="time" id="NT-form-due-time">
+                                </div>
                             </div>
                             <divider></divider>
                             <div class="form-item flex-col">
-                                <label for="NT-form-due-date">Complete by</label>
-                                <input type="date" id="NT-form-due-date">
-                            </div>
-                            <div class="form-item flex-col">
-                                <label for="NT-form-due-time">Complete by</label>
-                                <input type="time" id="NT-form-due-time">
-                            </div>
-                            <divider></divider>
-                            <div class="form-item flex-col">
-                                <label for="NT-form-color">Color</label>
+                                <label for="NT-form-color" class="section-label">Color</label>
                                 <input type="color" id="NT-form-color" value="#DDDDDD">
                             </div>
                         </div>
