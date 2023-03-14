@@ -388,7 +388,7 @@ const uiManager = (() => {
                     const MIN_HOUR = 60;
                     const MIN_DAY = MIN_HOUR * 24;
                     const MIN_WEEK = MIN_DAY * 7;
-                    const MIN_MONTH = MIN_WEEK * 28; //Approximation is good enough for now.
+                    const MIN_MONTH = MIN_DAY * 31; //Approximation is good enough for now.
                     const MIN_YEAR = MIN_DAY * 365; //ignoring leap years
                     let message = '';
 
